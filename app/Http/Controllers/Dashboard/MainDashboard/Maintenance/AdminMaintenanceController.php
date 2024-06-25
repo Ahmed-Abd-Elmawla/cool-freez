@@ -37,9 +37,24 @@ class AdminMaintenanceController extends Controller
         try {
             if ($request->has('company_id')) {
                 $maintenance->update([
-                    'company_id' => $request->company_id
+                    'company_id' => $request->company_id,
+                    'admin_status' => 'confirmed',
                 ]);
+
+                /*
+                    App notification
+                */
+                //stored notification
                 sendNotification::assignNotify($request->company_id);
+                $notifyData['message'] = 'your maintenance order has been' . ' ' . $request->admin_status;
+                $maintenance->client->notify(new newNotify($notifyData));
+                //fly notification
+                $token = $maintenance->client->device_token;
+                $data['device_token'] = $token;
+                $data['title'] = config('app.name');
+                $data['body'] = 'your maintenance order has been' . ' ' . $request->admin_status;
+                SendNotificationJob::dispatch($data);
+
                 return response()->json(['message' => __('main_trans.successfully_updated')]);
             };
         } catch (\Exception $e) {

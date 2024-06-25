@@ -413,8 +413,8 @@
                                     </td>
 
                                     <td>
-                                        <a href="#editModal{{ $maintenance->id }}" data-toggle="modal"><i
-                                                class="fas fa-pen-to-square fa-2xl"></i></a>
+                                        {{-- <a href="#editModal{{ $maintenance->id }}" data-toggle="modal"><i
+                                                class="fas fa-pen-to-square fa-2xl"></i></a> --}}
 
                                         <a href="#" class="btn btn-danger"
                                             onclick="openDeleteModal('{{ $maintenance->id }}')"><i

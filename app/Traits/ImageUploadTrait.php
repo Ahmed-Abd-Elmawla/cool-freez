@@ -17,7 +17,6 @@ trait ImageUploadTrait
         $image->move(public_path($path), $image_name);
         return $this->appUrl.'/'.$path.'/'.$image_name;
     }
-    
     public function remove($image){
         $image = str_replace($this->appUrl, '', $image);
         $imagePath = public_path($image);
@@ -28,6 +27,4 @@ trait ImageUploadTrait
             return false;
         }
     }
-
-
 }

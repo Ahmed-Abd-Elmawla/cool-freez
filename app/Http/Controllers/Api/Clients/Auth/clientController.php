@@ -70,7 +70,10 @@ class clientController extends Controller
                     $phone = $firebaseUser->phone_number;
 
                     if (!empty($email)) {
-                        $client = Client::firstOrCreate(['email' => $email]);
+                        $client = Client::where(['email' => $email]);
+                        if (empty($client)) {
+                            return response()->json(['message' => 'complete your data']);
+                        }
                         if ($client->is_banned) {
                             return response()->json(['message' => 'Your account is banned']);
                         }
@@ -80,6 +83,10 @@ class clientController extends Controller
                         return response()->json(['token' => $token, 'message' => 'Logged in successfully']);
                     } else if (!empty($phone)) {
                         $client = Client::where(['phone_number' => $phone]);
+                        
+                        if (empty($client)) {
+                            return response()->json(['message' => 'complete your data']);
+                        }
 
                         if (!empty($client)) {
                             if ($client->is_banned) {
